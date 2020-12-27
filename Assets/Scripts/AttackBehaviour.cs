@@ -14,6 +14,7 @@ public class AttackBehaviour : MonoBehaviour
     private List<Transform> endPoints = new List<Transform>();
     private int pointToSpawn = 0;
     public static Vector3 dirToMove = Vector3.zero;
+    public static bool hitFace = false;
     void Start()
     {
         InitSpawnPointList();
@@ -25,7 +26,13 @@ public class AttackBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(hitFace)
+        {
+            //Debug.Log("DESTROYED INITING NEW!");
+            InitAttackerPrefab();
+            CalculateMovementVector();
+            hitFace = false;
+        }
     }
 
     private void InitSpawnPointList()
@@ -39,9 +46,9 @@ public class AttackBehaviour : MonoBehaviour
     private void InitAttackerPrefab()
     {
         int CountOfSpawnObjects = spawnPoints.Count;
-        Debug.Log(CountOfSpawnObjects);
+        //Debug.Log(CountOfSpawnObjects);
         pointToSpawn = Random.Range(0, CountOfSpawnObjects);
-        Debug.Log(pointToSpawn);
+        //Debug.Log(pointToSpawn);
         Instantiate(attackerObject, spawnPoints[pointToSpawn].position, Quaternion.identity);
     }
 
@@ -57,7 +64,7 @@ public class AttackBehaviour : MonoBehaviour
     {
         Transform endPointToMoveToTransform = endPoints[pointToSpawn];
         dirToMove = endPointToMoveToTransform.position - spawnPoints[pointToSpawn].position;
-        Debug.Log(dirToMove);
+        //Debug.Log(dirToMove);
     }
 
 }

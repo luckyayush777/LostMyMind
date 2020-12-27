@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - StartSpawnPoint
+  - Endpoint
+  - attacker
+  - face
+  - lever
   layers:
   - Default
   - TransparentFX

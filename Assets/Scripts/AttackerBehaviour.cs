@@ -24,4 +24,19 @@ public class AttackerBehaviour : MonoBehaviour
         dirToMove = AttackBehaviour.dirToMove;
         transform.Translate(dirToMove.normalized * speed * Time.deltaTime);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "lever")
+        {
+            //Debug.Log("hit lever!");
+        }
+        else if (collision.gameObject.tag == "face")
+        {
+            //Debug.Log("face hit!");
+            AttackBehaviour.hitFace = true;
+            Destroy(gameObject);
+
+        }
+    }
 }
