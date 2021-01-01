@@ -15,6 +15,7 @@ public class AttackBehaviour : MonoBehaviour
     private int pointToSpawn = 0;
     public static Vector3 dirToMove = Vector3.zero;
     public static bool hitFace = false;
+    public static int currentButtonClicked;
     void Start()
     {
         InitSpawnPointList();
@@ -48,7 +49,7 @@ public class AttackBehaviour : MonoBehaviour
         int CountOfSpawnObjects = spawnPoints.Count;
         //Debug.Log(CountOfSpawnObjects);
         pointToSpawn = Random.Range(0, CountOfSpawnObjects);
-        //Debug.Log(pointToSpawn);
+        SetAttackerLaneInfo(pointToSpawn);
         Instantiate(attackerObject, spawnPoints[pointToSpawn].position, Quaternion.identity);
     }
 
@@ -67,4 +68,24 @@ public class AttackBehaviour : MonoBehaviour
         //Debug.Log(dirToMove);
     }
 
+    private void SetAttackerLaneInfo(int LaneInfoEnum)
+    {
+        switch (LaneInfoEnum)
+        {
+            case 0:
+                attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.WEST_LANE;
+                break;
+            case 1:
+                attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.NORTH_LANE;
+                break;
+            case 2:
+                attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.SOUTH_LANE;
+                break;
+            case 3:
+                attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.EAST_LANE;
+                break;
+        }
+    }
+
+   
 }

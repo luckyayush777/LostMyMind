@@ -19,8 +19,6 @@ public class LeverTouchManager : MonoBehaviour
     {
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == touchPhase)
         {
-
-
             touchPosWorld.x = Input.GetTouch(0).position.x;
             touchPosWorld.y = Input.GetTouch(0).position.y;
             touchPosWorld.z = 10.0f;
@@ -28,11 +26,13 @@ public class LeverTouchManager : MonoBehaviour
             Vector2 touchPosWorld2D = new Vector2(touchPosWorld.x, touchPosWorld.y);
             RaycastHit2D hitInformation = Physics2D.Raycast(touchPosWorld2D, Camera.main.transform.forward);
             Debug.DrawRay(touchPosWorld2D, Camera.main.transform.forward, Color.red);
-
             if (hitInformation.collider != null)
             {
                 GameObject touchedObject = hitInformation.transform.gameObject;
-                Debug.Log("Touched " + touchedObject.transform.name);
+                touchedObject.GetComponent<LeverBehaviour>().OnTouchButton();
+                AttackBehaviour.currentButtonClicked = touchedObject.GetComponent<LeverBehaviour>().getleverID();
+                Debug.Log(AttackBehaviour.currentButtonClicked);
+                //.Log("Touched " + touchedObject.transform.name);
             }
         }
     }

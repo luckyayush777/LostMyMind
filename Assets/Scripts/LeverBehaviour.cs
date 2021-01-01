@@ -5,6 +5,11 @@ using UnityEngine;
 public class LeverBehaviour : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField]
+    private GameObject TubeAttachedToThisLever;
+    private float rotationValue = 180.0f;
+    [SerializeField]
+    private int leverID;
 
     void Start()
     {
@@ -23,5 +28,17 @@ public class LeverBehaviour : MonoBehaviour
         {
             //Debug.Log("ENTERED ATTACKER!");
         }
+    }
+
+    public void OnTouchButton()
+    {
+        var rotationVector = TubeAttachedToThisLever.transform.rotation.eulerAngles;
+        rotationVector.z += rotationValue;
+        TubeAttachedToThisLever.transform.rotation = Quaternion.Euler(rotationVector);
+    }
+
+    public int getleverID()
+    {
+        return leverID;
     }
 }
