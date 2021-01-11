@@ -7,7 +7,6 @@ public class LeverBehaviour : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField]
     private GameObject TubeAttachedToThisLever;
-    private float rotationValue = 180.0f;
     [SerializeField]
     private int leverID;
 
@@ -30,14 +29,9 @@ public class LeverBehaviour : MonoBehaviour
         }
     }
 
-    public void OnTouchButton()
-    {
-        var rotationVector = TubeAttachedToThisLever.transform.rotation.eulerAngles;
-        rotationVector.z += rotationValue;
-        TubeAttachedToThisLever.transform.rotation = Quaternion.Euler(rotationVector);
-    }
 
-    public int getleverID()
+
+    public int GetleverID()
     {
         return leverID;
     }

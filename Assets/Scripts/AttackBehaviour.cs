@@ -15,7 +15,8 @@ public class AttackBehaviour : MonoBehaviour
     private int pointToSpawn = 0;
     public static Vector3 dirToMove = Vector3.zero;
     public static bool hitFace = false;
-    public static int currentButtonClicked;
+    public static int IDofCurrentLiverTouched = 0;
+    public static bool touchedLaneButton = false;
     void Start()
     {
         InitSpawnPointList();
@@ -23,17 +24,21 @@ public class AttackBehaviour : MonoBehaviour
         InitEndPoints();
         CalculateMovementVector();
     }
-
-    // Update is called once per frame
     void Update()
     {
         if(hitFace)
         {
-            //Debug.Log("DESTROYED INITING NEW!");
             InitAttackerPrefab();
             CalculateMovementVector();
-            hitFace = false;
         }
+        if(touchedLaneButton)
+        {
+            InitAttackerPrefab();
+            CalculateMovementVector();
+            touchedLaneButton = false;
+        }
+
+        
     }
 
     private void InitSpawnPointList()
@@ -47,10 +52,10 @@ public class AttackBehaviour : MonoBehaviour
     private void InitAttackerPrefab()
     {
         int CountOfSpawnObjects = spawnPoints.Count;
-        //Debug.Log(CountOfSpawnObjects);
         pointToSpawn = Random.Range(0, CountOfSpawnObjects);
-        SetAttackerLaneInfo(pointToSpawn);
+        SetLane(pointToSpawn);
         Instantiate(attackerObject, spawnPoints[pointToSpawn].position, Quaternion.identity);
+        hitFace = false;
     }
 
     private void InitEndPoints()
@@ -65,19 +70,18 @@ public class AttackBehaviour : MonoBehaviour
     {
         Transform endPointToMoveToTransform = endPoints[pointToSpawn];
         dirToMove = endPointToMoveToTransform.position - spawnPoints[pointToSpawn].position;
-        //Debug.Log(dirToMove);
     }
 
-    private void SetAttackerLaneInfo(int LaneInfoEnum)
+    private void SetLane(int spawnpoint)
     {
-        switch (LaneInfoEnum)
+        switch (spawnpoint)
         {
-            case 0:
-                attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.WEST_LANE;
+            case 0: attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.WEST_LANE;
                 break;
             case 1:
                 attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.NORTH_LANE;
                 break;
+                //THIS IS BROKEN FOR SOME REASON, SOUTH AND EAST ARE INTERCHANGED
             case 2:
                 attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.SOUTH_LANE;
                 break;
@@ -85,7 +89,9 @@ public class AttackBehaviour : MonoBehaviour
                 attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.EAST_LANE;
                 break;
         }
+
     }
 
+  
    
 }

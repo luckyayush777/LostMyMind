@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Lanes{
-    NORTH_LANE,
-    WEST_LANE,
-    SOUTH_LANE,
-    EAST_LANE
-}
 
 public class AttackerBehaviour : MonoBehaviour
 {
@@ -15,7 +9,7 @@ public class AttackerBehaviour : MonoBehaviour
     Vector3 dirToMove = Vector3.zero;
     [SerializeField]
     private float speed;
-    public Lanes currentLane;
+    public Lanes currentLane = Lanes.INVALID_LANE;
     
     void Start()
     {
@@ -26,34 +20,7 @@ public class AttackerBehaviour : MonoBehaviour
     void Update()
     {
         MovementToEndPoint();
-        if(currentLane == Lanes.WEST_LANE)
-        {
-            if(AttackBehaviour.currentButtonClicked == 1)
-            {
-                Debug.Log("DESTROY!");
-            }
-        }else if(currentLane == Lanes.NORTH_LANE)
-        {
-            if (AttackBehaviour.currentButtonClicked == 2)
-            {
-                Debug.Log("DESTROY!");
-            }
-        }
-        else if(currentLane == Lanes.EAST_LANE)
-        {
-            if (AttackBehaviour.currentButtonClicked == 3)
-            {
-                Debug.Log("DESTROY!");
-            }
-        }
-        else if(currentLane == Lanes.SOUTH_LANE)
-        {
-            if (AttackBehaviour.currentButtonClicked == 4)
-            {
-                Debug.Log("DESTROY!");
-            }
-        }
-
+        CheckLane();
     }
     
     private void MovementToEndPoint()
@@ -74,6 +41,15 @@ public class AttackerBehaviour : MonoBehaviour
             AttackBehaviour.hitFace = true;
             Destroy(gameObject);
 
+        }
+    }
+
+    private void CheckLane()
+    {
+        if((int)currentLane == AttackBehaviour.IDofCurrentLiverTouched)
+        {
+            AttackBehaviour.touchedLaneButton = true;
+            Destroy(gameObject);
         }
     }
 }

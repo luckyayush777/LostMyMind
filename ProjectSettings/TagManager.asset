@@ -9,6 +9,7 @@ TagManager:
   - attacker
   - face
   - lever
+  - waypoint
   layers:
   - Default
   - TransparentFX

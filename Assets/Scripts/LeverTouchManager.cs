@@ -26,13 +26,11 @@ public class LeverTouchManager : MonoBehaviour
             Vector2 touchPosWorld2D = new Vector2(touchPosWorld.x, touchPosWorld.y);
             RaycastHit2D hitInformation = Physics2D.Raycast(touchPosWorld2D, Camera.main.transform.forward);
             Debug.DrawRay(touchPosWorld2D, Camera.main.transform.forward, Color.red);
+            //TO DO : RIGHT NOW IF THE TOUCH HITS ANY COLLIDER IT WILL RETURN TRUE, FIX THAT!
             if (hitInformation.collider != null)
             {
                 GameObject touchedObject = hitInformation.transform.gameObject;
-                touchedObject.GetComponent<LeverBehaviour>().OnTouchButton();
-                AttackBehaviour.currentButtonClicked = touchedObject.GetComponent<LeverBehaviour>().getleverID();
-                Debug.Log(AttackBehaviour.currentButtonClicked);
-                //.Log("Touched " + touchedObject.transform.name);
+                AttackBehaviour.IDofCurrentLiverTouched = touchedObject.GetComponent<LeverBehaviour>().GetleverID();
             }
         }
     }

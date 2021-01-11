@@ -10,25 +10,14 @@ public class FaceBehaviour : MonoBehaviour
     private static int noOfTimesHit = 0;
 
     public delegate void OnDamage();
-    public static event OnDamage tookDamage;
-    
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public static event OnDamage TookDamage;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         
         if (collider.gameObject.tag == "attacker")
         {
-            tookDamage?.Invoke();
+            TookDamage?.Invoke();
             GetComponent<SpriteRenderer>().sprite = FacesAfterHit[noOfTimesHit];
             if(noOfTimesHit + 1 < FacesAfterHit.Length)
             noOfTimesHit++;
