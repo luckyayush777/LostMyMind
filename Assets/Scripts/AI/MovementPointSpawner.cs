@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovementPointSpawner : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    [Header("Waypoint Properties")]
     public List<Transform> movementPoints = new List<Transform>();
     [SerializeField]
     private float distanceBetweeenPoints;

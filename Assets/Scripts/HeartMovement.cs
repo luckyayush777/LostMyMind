@@ -6,7 +6,7 @@ public class HeartMovement : MonoBehaviour
 {
     private Vector3 target;
     private Vector3 directionToMove;
-    private static int count = 0;
+    private static int count = 1;
     private MovementPointSpawner spawnerScript;
     [SerializeField]
     private float speed;
@@ -14,11 +14,16 @@ public class HeartMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(speed);
         spawnerScript = FindObjectOfType<MovementPointSpawner>();
+        if(spawnerScript == null)
+        {
+            Debug.Log("Could not find MovementPointSpawner");
+        }
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    private void Update()
     {
         MovementToWayPoints();
         
@@ -26,33 +31,28 @@ public class HeartMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       if(collision.gameObject.CompareTag("face"))
+       if ( collision.gameObject.CompareTag("face"))
        {
             EnemySpawner.brokenHeartEnemyHitFace = true;
-            Debug.Log("face");
+            count = 1;
+            //Debug.Log("face");
             Destroy(gameObject);
        }
     }
 
     private void MovementToWayPoints()
     {
-        if (count != spawnerScript.movementPoints.Count)
+        if ( count < spawnerScript.movementPoints.Count)
+        {
+            //Debug.Log("made it into the loop!");
+            if (target.x - transform.position.x <= 0.01f)
+                count++;
             target = spawnerScript.movementPoints[count].position;
-        else if (count == spawnerScript.movementPoints.Count)
-        {
-            speed = 0;
-            target = Vector3.zero;
+            //Debug.Log(spawnerScript.movementPoints[count].position);
+            //Debug.Log(target);
+            directionToMove = target - transform.position;
+            transform.Translate(directionToMove * speed);
+            Debug.Log(count);  
         }
-        if (count != spawnerScript.movementPoints.Count)
-            directionToMove = (target - transform.position);
-        else
-            directionToMove = Vector3.zero;
-        if (count < spawnerScript.movementPoints.Count && spawnerScript.movementPoints[count].position.z - transform.position.z <= 0.2f)
-        {
-            count++;
-            Debug.Log(count);
-        }
-        transform.Translate(directionToMove.normalized * Time.deltaTime * speed, Space.World);
-      
-    }
+    }   
 }
