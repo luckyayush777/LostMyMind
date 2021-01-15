@@ -51,8 +51,8 @@ public class HeartMovement : MonoBehaviour
             //Debug.Log(spawnerScript.movementPoints[count].position);
             //Debug.Log(target);
             directionToMove = target - transform.position;
-            transform.Translate(directionToMove * speed);
-            Debug.Log(count);  
+            transform.Translate(directionToMove.normalized * speed);
+            //Debug.Log(count);  
         }
     }   
 }

@@ -10,6 +10,7 @@ TagManager:
   - face
   - lever
   - waypoint
+  - heartAttacker
   layers:
   - Default
   - TransparentFX

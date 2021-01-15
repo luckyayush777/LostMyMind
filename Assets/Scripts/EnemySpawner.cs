@@ -28,6 +28,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void InitHeartEnemy()
     {
+        time = 0.0f;
         Instantiate(heartEnemy);
         brokenHeartEnemyHitFace = false;
     }

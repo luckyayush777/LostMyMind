@@ -11,6 +11,7 @@ public class FaceBehaviour : MonoBehaviour
 
     public delegate void OnDamage();
     public static event OnDamage TookDamage;
+    public static event OnDamage LifeLost;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
@@ -21,6 +22,10 @@ public class FaceBehaviour : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = FacesAfterHit[noOfTimesHit];
             if(noOfTimesHit + 1 < FacesAfterHit.Length)
             noOfTimesHit++;
+        }
+        if(collider.gameObject.tag == "heartAttacker")
+        {
+            LifeLost?.Invoke();
         }
     }
 }
