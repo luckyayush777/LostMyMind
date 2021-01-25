@@ -14,7 +14,7 @@ public class HeartMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(speed);
+        //Debug.Log(speed);
         spawnerScript = FindObjectOfType<MovementPointSpawner>();
         if(spawnerScript == null)
         {
@@ -55,4 +55,6 @@ public class HeartMovement : MonoBehaviour
             //Debug.Log(count);  
         }
     }   
+
+
 }
