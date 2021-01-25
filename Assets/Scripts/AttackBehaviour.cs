@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class AttackBehaviour : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -17,6 +19,9 @@ public class AttackBehaviour : MonoBehaviour
     public static bool hitFace = false;
     public static int IDofCurrentLiverTouched = 0;
     public static bool touchedLaneButton = false;
+
+    public QuartantMovement quartantMovement;
+    public static string CurrentButtonPressed { get; set; }
     void Start()
     {
         InitSpawnPointList();
@@ -37,8 +42,16 @@ public class AttackBehaviour : MonoBehaviour
             CalculateMovementVector();
             touchedLaneButton = false;
         }
+        DebugInputLogger();
+        if (CurrentButtonPressed != null)
+        {
+            dirToMove = RecalibrateDirection(dirToMove, CurrentButtonPressed);
+            Debug.Log(CurrentButtonPressed);
+            CurrentButtonPressed = null;
+        }
 
-        
+
+
     }
 
     private void InitSpawnPointList()
@@ -92,6 +105,51 @@ public class AttackBehaviour : MonoBehaviour
 
     }
 
-  
-   
+    private Vector2 RecalibrateDirection(Vector2 originalVector, string directionToMoveTo)
+    {
+        if (directionToMoveTo == "NorthWest")
+        {
+            originalVector.x *= 0;
+            originalVector.y += 1.0f;
+        }
+        else if(directionToMoveTo == "SouthWest")
+        {
+            originalVector.x *= 0;
+            originalVector.y -= 1.0f;
+        }
+        else if (directionToMoveTo == "NorthEast")
+        {
+            originalVector.x += 1.0f;
+            originalVector.y *= 0.0f;
+        }
+        else if (directionToMoveTo == "SouthEast")
+        {
+            originalVector.x -= 1.0f;
+            originalVector.y *= 0.0f;
+        }
+        return originalVector;
+    }
+    // DELETE THIS LATER
+    private void DebugInputLogger()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            dirToMove = RecalibrateDirection(dirToMove, "SouthWest");
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            dirToMove = RecalibrateDirection(dirToMove, "NorthWest");
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            dirToMove = RecalibrateDirection(dirToMove, "NorthEast");
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            dirToMove = RecalibrateDirection(dirToMove, "SouthEast");
+        }
+    }
+
+
+
 }

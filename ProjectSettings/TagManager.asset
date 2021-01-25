@@ -11,6 +11,7 @@ TagManager:
   - lever
   - waypoint
   - heartAttacker
+  - dirChangeButton
   layers:
   - Default
   - TransparentFX

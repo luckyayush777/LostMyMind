@@ -11,19 +11,21 @@ public class AttackerBehaviour : MonoBehaviour
     private float speed;
     public Lanes currentLane = Lanes.INVALID_LANE;
     
+
+
     void Start()
     {
-        //Debug.Log(currentLane);
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        MovementToEndPoint();
+        Movement();
         CheckLane();
     }
     
-    private void MovementToEndPoint()
+    private void Movement()
     {
         dirToMove = AttackBehaviour.dirToMove;
         transform.Translate(dirToMove.normalized * speed * Time.deltaTime);
@@ -41,6 +43,10 @@ public class AttackerBehaviour : MonoBehaviour
             AttackBehaviour.hitFace = true;
             Destroy(gameObject);
 
+        }else if(collision.gameObject.tag == "regionIdentifier")
+        {
+            //Debug.Log("HIT SOME REGION!");
+            CalculateRegion(collision.gameObject.name);
         }
     }
 
@@ -52,4 +58,29 @@ public class AttackerBehaviour : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void CalculateRegion(string regionHit)
+    {
+        if(regionHit == "SouthWestRegionIdentifier" || regionHit == "SouthWestRegionIdentifier2")
+        {
+            Debug.Log(regionHit);
+        }else if(regionHit == "NorthEastRegionIdentifer" || regionHit == "NorthEastRegionIdentifer2")
+        {
+            Debug.Log(regionHit);
+        }
+        else if(regionHit == "NorthWestRegionIdentifer" || regionHit == "NorthWestRegionIdentifer2")
+        {
+            Debug.Log(regionHit);
+        }
+        else if(regionHit == "SouthEastRegionIdentifier" || regionHit == "SouthEastRegionIdentifier2")
+        {
+            Debug.Log(regionHit);
+        }
+        else
+        {
+            Debug.Log("INVALID REGION!");
+        }
+    }
+
+    
 }
