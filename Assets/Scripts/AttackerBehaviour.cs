@@ -6,23 +6,29 @@ using UnityEngine;
 public class AttackerBehaviour : MonoBehaviour
 {
     // Start is called before the first frame update
-    Vector3 dirToMove = Vector3.zero;
-    [SerializeField]
-    private float speed;
+    private Vector3 dirToMove = Vector3.zero;
+    public float speed = 1.0f;
     public Lanes currentLane = Lanes.INVALID_LANE;
-    
+    private  bool primaryMovementAllowed = true;
+    private  bool secondaryMovementAllowed = false;
 
 
     void Start()
     {
-       
+        Movement();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Movement();
-        CheckLane();
+        if (primaryMovementAllowed)
+        {
+            Movement();
+        }else if(secondaryMovementAllowed)
+        {
+            SecondaryMovement();
+        }
+       CheckLane();
     }
     
     private void Movement()
@@ -31,22 +37,36 @@ public class AttackerBehaviour : MonoBehaviour
         transform.Translate(dirToMove.normalized * speed * Time.deltaTime);
     }
 
+ 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "lever")
+        if (collision.gameObject.CompareTag("lever"))
         {
-            //Debug.Log("hit lever!");
+           
         }
-        else if (collision.gameObject.tag == "face")
+        else if (collision.gameObject.CompareTag("face"))
         {
-            //Debug.Log("face hit!");
             AttackBehaviour.hitFace = true;
             Destroy(gameObject);
 
-        }else if(collision.gameObject.tag == "regionIdentifier")
+        }
+        else if(collision.gameObject.CompareTag("waypoint"))
         {
-            //Debug.Log("HIT SOME REGION!");
-            CalculateRegion(collision.gameObject.name);
+            string identifier;
+            if (currentLane == Lanes.EAST_LANE || currentLane == Lanes.WEST_LANE)
+            {
+                identifier = collision.GetComponent<Waypoint>().GetHorizontalIdentifer();
+                //Helper.Log(identifier);
+            }
+            else if (currentLane == Lanes.NORTH_LANE || currentLane == Lanes.SOUTH_LANE)
+            {
+                identifier = collision.GetComponent<Waypoint>().GetVerticalIdentifier();
+                //Helper.Log(identifier);
+            }
+            else 
+                identifier = null;
+            CalibrateDirection(identifier);
         }
     }
 
@@ -58,29 +78,35 @@ public class AttackerBehaviour : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void CalculateRegion(string regionHit)
+    
+    private void SecondaryMovement()
     {
-        if(regionHit == "SouthWestRegionIdentifier" || regionHit == "SouthWestRegionIdentifier2")
+       transform.Translate(dirToMove.normalized* speed * Time.deltaTime);
+    }
+
+    private void CalibrateDirection(string identifier)
+    {
+        primaryMovementAllowed = false;
+        secondaryMovementAllowed = true;
+        Helper.ASSERT_STRING(identifier);
+        if (identifier == "RedirectRight")
         {
-            Debug.Log(regionHit);
-        }else if(regionHit == "NorthEastRegionIdentifer" || regionHit == "NorthEastRegionIdentifer2")
-        {
-            Debug.Log(regionHit);
+            dirToMove = Vector2.zero;
+            dirToMove = Vector2.right;
         }
-        else if(regionHit == "NorthWestRegionIdentifer" || regionHit == "NorthWestRegionIdentifer2")
+        else if(identifier == "RedirectDown")
         {
-            Debug.Log(regionHit);
-        }
-        else if(regionHit == "SouthEastRegionIdentifier" || regionHit == "SouthEastRegionIdentifier2")
+            dirToMove = Vector2.zero;
+            dirToMove = Vector2.down;
+        }else if(identifier == "RedirectUp")
         {
-            Debug.Log(regionHit);
-        }
-        else
+            dirToMove = Vector2.zero;
+            dirToMove = Vector2.up;
+        }else if(identifier == "RedirectLeft")
         {
-            Debug.Log("INVALID REGION!");
+            dirToMove = Vector2.zero;
+            dirToMove = Vector2.left;
         }
     }
 
-    
 }
