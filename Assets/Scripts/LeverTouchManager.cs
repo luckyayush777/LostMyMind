@@ -29,7 +29,7 @@ public class LeverTouchManager : MonoBehaviour
             //TO DO : RIGHT NOW IF THE TOUCH HITS ANY COLLIDER IT WILL RETURN TRUE, FIX THAT!
             if (hitInformation.collider != null)
             {
-                Debug.Log("touched!");
+                //Debug.Log("touched!");
                 GameObject touchedObject = hitInformation.transform.gameObject;
                 //AttackBehaviour.IDofCurrentLiverTouched = touchedObject.GetComponent<LeverBehaviour>().GetleverID();
             }

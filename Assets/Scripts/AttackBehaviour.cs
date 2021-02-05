@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,8 +21,10 @@ public class AttackBehaviour : MonoBehaviour
     public static int IDofCurrentLiverTouched = 0;
     public static bool touchedLaneButton = false;
 
-    public QuartantMovement quartantMovement;
+    
+    
     public static string CurrentButtonPressed { get; set; }
+    public static string CurrentRegionName { get; set; }
     void Start()
     {
         InitSpawnPointList();
@@ -30,11 +33,13 @@ public class AttackBehaviour : MonoBehaviour
         CalculateMovementVector();
     }
     void Update()
-    {
+    { 
+
         if(hitFace)
         {
             InitAttackerPrefab();
             CalculateMovementVector();
+            //CalculateMovementVector();
         }
         if(touchedLaneButton)
         {
@@ -42,17 +47,22 @@ public class AttackBehaviour : MonoBehaviour
             CalculateMovementVector();
             touchedLaneButton = false;
         }
-        DebugInputLogger();
         if (CurrentButtonPressed != null)
         {
             dirToMove = RecalibrateDirection(dirToMove, CurrentButtonPressed);
-            Debug.Log(CurrentButtonPressed);
+            //Debug.Log(CurrentButtonPressed);
             CurrentButtonPressed = null;
         }
+        if (CurrentRegionName != null)
+        {
+            //Debug.Log(CurrentRegionName);
+            CurrentRegionName = null;
+        }
 
-
+  
 
     }
+
 
     private void InitSpawnPointList()
     {
@@ -65,7 +75,7 @@ public class AttackBehaviour : MonoBehaviour
     private void InitAttackerPrefab()
     {
         int CountOfSpawnObjects = spawnPoints.Count;
-        pointToSpawn = Random.Range(0, CountOfSpawnObjects);
+        pointToSpawn = UnityEngine.Random.Range(0, CountOfSpawnObjects);
         SetLane(pointToSpawn);
         Instantiate(attackerObject, spawnPoints[pointToSpawn].position, Quaternion.identity);
         hitFace = false;
@@ -112,7 +122,7 @@ public class AttackBehaviour : MonoBehaviour
             originalVector.x *= 0;
             originalVector.y += 1.0f;
         }
-        else if(directionToMoveTo == "SouthWest")
+        else if (directionToMoveTo == "SouthWest")
         {
             originalVector.x *= 0;
             originalVector.y -= 1.0f;
@@ -129,26 +139,11 @@ public class AttackBehaviour : MonoBehaviour
         }
         return originalVector;
     }
-    // DELETE THIS LATER
-    private void DebugInputLogger()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            dirToMove = RecalibrateDirection(dirToMove, "SouthWest");
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            dirToMove = RecalibrateDirection(dirToMove, "NorthWest");
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            dirToMove = RecalibrateDirection(dirToMove, "NorthEast");
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            dirToMove = RecalibrateDirection(dirToMove, "SouthEast");
-        }
-    }
+
+
+
+
+
 
 
 

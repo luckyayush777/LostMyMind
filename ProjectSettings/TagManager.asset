@@ -12,6 +12,7 @@ TagManager:
   - waypoint
   - heartAttacker
   - dirChangeButton
+  - regionIdentifier
   layers:
   - Default
   - TransparentFX
