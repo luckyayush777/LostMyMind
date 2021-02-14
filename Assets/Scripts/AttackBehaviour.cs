@@ -18,6 +18,7 @@ public class AttackBehaviour : MonoBehaviour
     private int pointToSpawn = 0;
     public static Vector3 dirToMove = Vector3.zero;
     public static bool hitFace = false;
+    public static bool hitBoundary = false;
     public static int IDofCurrentLiverTouched = 0;
     public static bool touchedLaneButton = false;
 
@@ -25,6 +26,8 @@ public class AttackBehaviour : MonoBehaviour
     
     public static string CurrentButtonPressed { get; set; }
     public static string CurrentRegionName { get; set; }
+
+    public static string nameOfLeverPressed { get; set; }
     void Start()
     {
         InitSpawnPointList();
@@ -39,7 +42,6 @@ public class AttackBehaviour : MonoBehaviour
         {
             InitAttackerPrefab();
             CalculateMovementVector();
-            //CalculateMovementVector();
         }
         if(touchedLaneButton)
         {
@@ -47,16 +49,25 @@ public class AttackBehaviour : MonoBehaviour
             CalculateMovementVector();
             touchedLaneButton = false;
         }
+        else if(hitBoundary)
+        {
+            InitAttackerPrefab();
+            CalculateMovementVector();
+            hitBoundary = false;
+        }
         if (CurrentButtonPressed != null)
         {
             dirToMove = RecalibrateDirection(dirToMove, CurrentButtonPressed);
-            //Debug.Log(CurrentButtonPressed);
             CurrentButtonPressed = null;
         }
         if (CurrentRegionName != null)
         {
-            //Debug.Log(CurrentRegionName);
             CurrentRegionName = null;
+        }
+        if(nameOfLeverPressed != null)
+        {
+            dirToMove = -dirToMove;
+            nameOfLeverPressed = null;
         }
 
   
@@ -104,7 +115,6 @@ public class AttackBehaviour : MonoBehaviour
             case 1:
                 attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.NORTH_LANE;
                 break;
-                //THIS IS BROKEN FOR SOME REASON, SOUTH AND EAST ARE INTERCHANGED
             case 2:
                 attackerObject.GetComponent<AttackerBehaviour>().currentLane = Lanes.SOUTH_LANE;
                 break;
