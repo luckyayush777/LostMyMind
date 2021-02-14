@@ -68,6 +68,12 @@ public class AttackerBehaviour : MonoBehaviour
                 identifier = null;
             CalibrateDirection(identifier);
         }
+        else if(collision.gameObject.CompareTag("boundary"))
+        {
+            Helper.Log("hit boundary");
+            AttackBehaviour.hitBoundary = true;
+            Destroy(gameObject);
+        }
     }
 
     private void CheckLane()

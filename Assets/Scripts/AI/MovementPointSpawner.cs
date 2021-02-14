@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementPointSpawner : MonoBehaviour
@@ -28,7 +27,6 @@ public class MovementPointSpawner : MonoBehaviour
         AddToWayPoints();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -38,7 +36,6 @@ public class MovementPointSpawner : MonoBehaviour
     {
         xCoordinate = startingPoints.x;
         yCoordinate = startingPoints.y;
-        //Debug.Log("before calculating :" + xCoordinate + " " + yCoordinate);
     }
 
     private void CalculateCoordinates()
@@ -46,7 +43,7 @@ public class MovementPointSpawner : MonoBehaviour
         for (int i = 0; i < noOfPoints; i++)
         {
             Instantiate(wayPoint, new Vector3(xCoordinate, yCoordinate, -1.0f), Quaternion.identity , transform);
-            wayPoint.gameObject.tag = "waypoint";
+            wayPoint.gameObject.tag = "secondaryWaypoint";
             yCoordinate += distanceBetweeenPoints;  
             xCoordinate += (distanceBetweeenPoints * Mathf.Tan(radians));
             
@@ -55,7 +52,7 @@ public class MovementPointSpawner : MonoBehaviour
 
     private void AddToWayPoints()
     {
-        foreach (GameObject g in GameObject.FindGameObjectsWithTag("waypoint"))
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("secondaryWaypoint" ))
         {
             movementPoints.Add(g.transform);
         }

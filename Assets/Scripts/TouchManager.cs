@@ -13,7 +13,6 @@ public class TouchManager : MonoBehaviour
     private float xOffset;
     [SerializeField]
     private float yOffset;
-    private string nameOfCurrentButtonTouched;
 
 
 
@@ -41,19 +40,25 @@ public class TouchManager : MonoBehaviour
             touchPosWorld.x = Input.GetTouch(0).position.x;
             touchPosWorld.y = Input.GetTouch(0).position.y;
             touchPosWorld.z = 10.0f;
-            //Debug.Log(touchPosWorld + " ");
             touchPosWorld = _mainCamera.ScreenToWorldPoint(touchPosWorld);
             Vector2 touchPosWorld2D = new Vector2(touchPosWorld.x, touchPosWorld.y);
-            //Debug.Log(touchPosWorld2D);
             Instantiate(debugObject, new Vector3(touchPosWorld2D.x, touchPosWorld2D.y , -1.0f), Quaternion.identity);
             RaycastHit2D hitInformation = Physics2D.Raycast(touchPosWorld2D, _mainCamera.transform.forward);
             if(hitInformation.collider != null && hitInformation.collider.CompareTag("dirChangeButton"))
             {
-                //Debug.Log(hitInformation.collider.gameObject.name);
                 AttackBehaviour.CurrentButtonPressed = hitInformation.collider.GetComponent<DirChangeButton>().ReturnButtonName();
             }
-            
-            
+            if (hitInformation.collider != null && hitInformation.collider.CompareTag("heartAttacker"))
+            {
+                Helper.Log("heart object touched!");
+            }
+            if(hitInformation.collider != null && hitInformation.collider.CompareTag("lever"))
+            {
+                Helper.Log(hitInformation.collider.gameObject.name + " touched");
+                AttackBehaviour.nameOfLeverPressed = hitInformation.collider.gameObject.name;
+            }
+             
+
         }
     }
 }

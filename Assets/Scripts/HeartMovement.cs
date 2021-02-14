@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HeartMovement : MonoBehaviour
 {
@@ -11,10 +9,8 @@ public class HeartMovement : MonoBehaviour
     [SerializeField]
     private float speed;
 
-    // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log(speed);
         spawnerScript = FindObjectOfType<MovementPointSpawner>();
         if(spawnerScript == null)
         {
@@ -22,7 +18,6 @@ public class HeartMovement : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     private void Update()
     {
         MovementToWayPoints();
@@ -35,7 +30,6 @@ public class HeartMovement : MonoBehaviour
        {
             EnemySpawner.brokenHeartEnemyHitFace = true;
             count = 1;
-            //Debug.Log("face");
             Destroy(gameObject);
        }
     }
@@ -44,15 +38,11 @@ public class HeartMovement : MonoBehaviour
     {
         if ( count < spawnerScript.movementPoints.Count)
         {
-            //Debug.Log("made it into the loop!");
             if (target.x - transform.position.x <= 0.01f)
                 count++;
             target = spawnerScript.movementPoints[count].position;
-            //Debug.Log(spawnerScript.movementPoints[count].position);
-            //Debug.Log(target);
             directionToMove = target - transform.position;
             transform.Translate(directionToMove.normalized * speed);
-            //Debug.Log(count);  
         }
     }   
 
