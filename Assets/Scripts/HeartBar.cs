@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class HeartBar : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] Lives = new GameObject[5];
     private static int countOfLivesLost = 0;
+
 
     private void OnEnable()
     {
@@ -21,5 +24,18 @@ public class HeartBar : MonoBehaviour
         if(countOfLivesLost < Lives.Length)
         Lives[countOfLivesLost].SetActive(false);
         countOfLivesLost++;
+    }
+
+    private void Update()
+    {
+        OnDeath();
+    }
+
+    private void OnDeath()
+    {
+        if(countOfLivesLost == Lives.Length)
+        {
+            Debug.Log("DIED!");
+        }
     }
 }
